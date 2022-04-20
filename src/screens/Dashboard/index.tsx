@@ -15,20 +15,36 @@ export function Dashboard() {
 
 	const tvshows: TVShowDTO[] = [
 		{
-			title: 'Filme 1',
-			image: ' ',
+			id: '1',
+			name: 'Filme 1',
+			image: {
+				medium: '',
+				original: '',
+			},
 		},
 		{
-			title: 'Filme 2',
-			image: ' ',
+			id: '2',
+			name: 'Filme 2',
+			image: {
+				medium: '',
+				original: '',
+			},
 		},
 		{
-			title: 'Filme 3',
-			image: ' ',
+			id: '3',
+			name: 'Filme 3',
+			image: {
+				medium: '',
+				original: '',
+			},
 		},
 		{
-			title: 'Filme 4',
-			image: ' ',
+			id: '4',
+			name: 'Filme 4',
+			image: {
+				medium: '',
+				original: '',
+			},
 		},
 	];
 
@@ -51,7 +67,7 @@ export function Dashboard() {
 				) : (
 					<TVShowsList
 						data={tvshows}
-						keyExtractor={(item) => item.title}
+						keyExtractor={(item) => item.name}
 						renderItem={({ item }) => <TVShowCard />}
 					/>
 				)}
