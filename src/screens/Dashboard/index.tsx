@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import { Header } from '../../components/Header';
@@ -15,11 +15,28 @@ export function Dashboard() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [tvShows, setTvShows] = useState<TVShowDTO[]>([]);
 	const [noMorePages, setNoMorePages] = useState(false);
+	const [isSearching, setIsSearching] = useState(false);
 
 	let page = 1;
 
+	async function fetchTvShows() {
+		try {
+			const response = await api.get(`/shows?page=0`);
+
+			setTvShows(response.data);
+			setIsLoading(false);
+		} catch (error) {
+			throw new Error('Failed to load TV Shows');
+		}
+	}
+
 	async function fetchNextPage() {
-		console.log('NEXT PAGEEE!!');
+		if (isSearching || noMorePages) {
+			console.log('searching | no more pages');
+			console.log(isSearching || noMorePages);
+			return;
+		}
+		console.log('NEXT PAGE!!');
 
 		try {
 			const response = await api.get(`/shows?page=${page}`);
@@ -35,28 +52,47 @@ export function Dashboard() {
 		}
 	}
 
-	useEffect(() => {
-		async function fetchTvShows() {
-			try {
-				const response = await api.get(`/shows?page=0`);
+	async function handleSearchByName(query: string) {
+		setIsLoading(true);
+		setIsSearching(true);
 
-				setTvShows(response.data);
-				setIsLoading(false);
-			} catch (error) {
-				throw new Error('Failed to load TV Shows');
-			}
+		if (!query.trim()) {
+			fetchTvShows();
+			setIsSearching(false);
+			return;
 		}
 
+		const formattedQuery = query.trim().replace(' ', '+');
+
+		try {
+			const response = await api.get(`/search/shows?q=${formattedQuery}`);
+
+			if (!response.data) {
+				Alert.alert('', 'No TV shows found');
+
+				return;
+			}
+
+			const shows = response.data.map((item: any) => item.show);
+
+			setTvShows(shows);
+			setIsLoading(false);
+		} catch (error) {
+			throw new Error('Failed to search for tv shows');
+		}
+	}
+
+	useEffect(() => {
 		fetchTvShows();
 	}, []);
 
 	return (
 		<>
-			<Header />
+			<Header handleSearch={handleSearchByName} />
 			<Container>
 				{isLoading ? (
 					<>
-						<Title>TV Shows</Title>
+						<Title style={{ padding: 20 }}>TV Shows</Title>
 						<ActivityIndicator
 							color={theme.colors.shape}
 							size={40}
@@ -85,19 +121,13 @@ export function Dashboard() {
 						maxToRenderPerBatch={11}
 						onEndReachedThreshold={0.1}
 						onEndReached={fetchNextPage}
-						ListFooterComponent={() => {
-							if (!noMorePages) {
-								return (
-									<ActivityIndicator
-										color={theme.colors.shape}
-										size={40}
-										style={{ marginVertical: 20 }}
-									/>
-								);
-							} else {
-								return <></>;
-							}
-						}}
+						ListFooterComponent={
+							<ActivityIndicator
+								color={theme.colors.shape}
+								size={!(isSearching || noMorePages) ? 40 : 0}
+								style={{ marginVertical: 20 }}
+							/>
+						}
 					/>
 				)}
 			</Container>

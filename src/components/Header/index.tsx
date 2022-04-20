@@ -7,7 +7,11 @@ import { SearchBar } from '../SearchBar';
 
 import { Container, MenuButton } from './styles';
 
-export function Header() {
+interface HeaderProps {
+	handleSearch: (query: string) => Promise<void>;
+}
+
+export function Header({ handleSearch }: HeaderProps) {
 	const theme = useTheme();
 
 	return (
@@ -16,7 +20,7 @@ export function Header() {
 				<Feather name="menu" size={RFValue(40)} color={theme.colors.shape} />
 			</MenuButton>
 
-			<SearchBar />
+			<SearchBar handleSearch={handleSearch} />
 		</Container>
 	);
 }
