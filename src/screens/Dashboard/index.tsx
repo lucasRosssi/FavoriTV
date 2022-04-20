@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components/native';
 
 import { Header } from '../../components/Header';
-import { MovieCard } from '../../components/MovieCard';
-import { MovieDTO } from '../../dtos/MovieDTO';
+import { TVShowCard } from '../../components/TVShowCard';
+import { TVShowDTO } from '../../dtos/TVShowDTO';
 
-import { Container, Title, MovieList } from './styles';
+import { Container, Title, TVShowsList } from './styles';
 
 export function Dashboard() {
-	const movies: MovieDTO[] = [
+	const theme = useTheme();
+
+	const [isLoading, setIsLoading] = useState(true);
+
+	const tvshows: TVShowDTO[] = [
 		{
 			title: 'Filme 1',
 			image: ' ',
@@ -26,17 +32,30 @@ export function Dashboard() {
 		},
 	];
 
+	useEffect(() => {
+		setIsLoading(false);
+	}, []);
+
 	return (
-		<Container>
+		<>
 			<Header />
+			<Container>
+				<Title>TV Shows</Title>
 
-			<Title>Filmes</Title>
-
-			<MovieList
-				data={movies}
-				keyExtractor={(item) => item.title}
-				renderItem={({ item }) => <MovieCard />}
-			/>
-		</Container>
+				{isLoading ? (
+					<ActivityIndicator
+						color={theme.colors.shape}
+						size={40}
+						style={{ marginTop: 50 }}
+					/>
+				) : (
+					<TVShowsList
+						data={tvshows}
+						keyExtractor={(item) => item.title}
+						renderItem={({ item }) => <TVShowCard />}
+					/>
+				)}
+			</Container>
+		</>
 	);
 }
