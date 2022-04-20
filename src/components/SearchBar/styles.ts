@@ -8,6 +8,7 @@ export const Container = styled.View`
 
 	flex-direction: row;
 	align-items: center;
+	justify-content: space-between;
 
 	border-radius: 25px;
 
@@ -15,14 +16,16 @@ export const Container = styled.View`
 `;
 
 export const Input = styled.TextInput`
-	flex: 1;
-
+	width: 80%;
 	font-family: ${({ theme }) => theme.fonts.regular};
 	font-size: ${RFValue(15)}px;
 	color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const SearchButton = styled.TouchableOpacity`
+	position: absolute;
+	right: 0;
+
 	width: ${RFValue(45)}px;
 	height: ${RFValue(45)}px;
 	background-color: ${({ theme }) => theme.colors.secondary};

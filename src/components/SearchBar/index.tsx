@@ -11,7 +11,7 @@ export function SearchBar() {
 
 	return (
 		<Container>
-			<Input />
+			<Input placeholder="Search for a TV show..." />
 
 			<SearchButton>
 				<Ionicons
