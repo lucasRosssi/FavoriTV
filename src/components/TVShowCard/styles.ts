@@ -12,6 +12,13 @@ export const Container = styled.TouchableOpacity.attrs({
 	border-radius: 10px;
 
 	overflow: hidden;
+
+	shadow-color: #000;
+	shadow-offset: 0 2px;
+	shadow-opacity: 0.25;
+	shadow-radius: 3.84px;
+
+	elevation: 5;
 `;
 
 export const TitleWrapper = styled.View`
@@ -32,23 +39,64 @@ export const RowWrapper = styled.View`
 	flex-direction: row;
 `;
 
+export const ImageWrapper = styled.View`
+	width: ${RFValue(90)}px;
+	height: ${RFValue(125)}px;
+	background-color: ${({ theme }) => theme.colors.secondary};
+
+	align-items: center;
+	justify-content: center;
+`;
+
 export const Image = styled.Image`
-	width: ${RFValue(110)}px;
-	height: ${RFValue(110)}px;
+	width: ${RFValue(90)}px;
+	height: ${RFValue(125)}px;
 `;
 
 export const Content = styled.View`
 	flex: 1;
+
+	padding: 10px;
 `;
 
-export const AboutWrapper = styled.View`
+export const DetailsWrapper = styled.View`
 	flex: 1;
 
 	padding: 5px;
 `;
 
-export const About = styled.Text`
+export const Details = styled.View`
+	flex-direction: row;
+	align-items: center;
+
+	margin-bottom: 3px;
+`;
+
+export const Info = styled.Text`
 	font-family: ${({ theme }) => theme.fonts.bold};
 	font-size: ${RFValue(12)}px;
+	color: ${({ theme }) => theme.colors.shape};
+	line-height: ${RFValue(18)}px;
+
+	margin-left: 5px;
+`;
+
+export const Genres = styled.View`
+	flex-direction: row;
+	justify-content: flex-end;
+`;
+
+export const GenreWrapper = styled.View`
+	background-color: ${({ theme }) => theme.colors.secondary};
+	border-radius: 5px;
+
+	padding: 0 5px;
+
+	margin-left: 5px;
+`;
+
+export const Genre = styled.Text`
+	font-family: ${({ theme }) => theme.fonts.bold};
+	font-size: ${RFValue(9)}px;
 	color: ${({ theme }) => theme.colors.shape};
 `;
