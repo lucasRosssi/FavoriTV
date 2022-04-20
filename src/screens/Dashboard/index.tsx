@@ -32,11 +32,8 @@ export function Dashboard() {
 
 	async function fetchNextPage() {
 		if (isSearching || noMorePages) {
-			console.log('searching | no more pages');
-			console.log(isSearching || noMorePages);
 			return;
 		}
-		console.log('NEXT PAGE!!');
 
 		try {
 			const response = await api.get(`/shows?page=${page}`);
