@@ -8,7 +8,8 @@ export default {
 		success: '#5CD65A',
 		background: '#2E2E2E',
 		primary: '#4E4E4E',
-		secondary: '#E6D00E',
+		secondary: '#fcba03',
 		shape: '#F7F7F7',
+		shadow: '#000000',
 	},
 };
