@@ -8,7 +8,7 @@ import { Container, Input, SearchButton } from './styles';
 import { Keyboard } from 'react-native';
 
 interface SearchBarProps {
-	handleSearch: (query: string) => Promise<void>;
+	handleSearch?: (query: string) => Promise<void>;
 }
 
 export function SearchBar({ handleSearch }: SearchBarProps) {
@@ -18,7 +18,7 @@ export function SearchBar({ handleSearch }: SearchBarProps) {
 
 	function handlePressButton() {
 		Keyboard.dismiss();
-		handleSearch(query);
+		handleSearch!(query);
 	}
 
 	return (
@@ -27,7 +27,7 @@ export function SearchBar({ handleSearch }: SearchBarProps) {
 				placeholder="Search for a TV show..."
 				value={query}
 				onChangeText={setQuery}
-				onSubmitEditing={() => handleSearch(query)}
+				onSubmitEditing={() => handleSearch!(query)}
 				blurOnSubmit
 				autoCorrect={false}
 				autoCapitalize="none"
