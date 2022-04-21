@@ -7,7 +7,7 @@ export interface TVShowDTO {
 	status: string;
 	premiered: string;
 	ended: string;
-	image: null | {
+	image?: {
 		medium: string;
 		original: string;
 	};
