@@ -6,11 +6,12 @@ import {
 	Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+import { ShowProvider } from './src/contexts/ShowContext';
 import { ThemeProvider } from 'styled-components/native';
 import theme from './src/styles/theme';
 
 import { StatusBar } from 'expo-status-bar';
-import { Dashboard } from './src/screens/Dashboard';
+import { Routes } from './src/routes';
 
 export default function App() {
 	let [fontsLoaded] = useFonts({
@@ -24,8 +25,10 @@ export default function App() {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<StatusBar translucent backgroundColor="transparent" style="light" />
-			<Dashboard />
+			<ShowProvider>
+				<StatusBar translucent backgroundColor="transparent" style="light" />
+				<Routes />
+			</ShowProvider>
 		</ThemeProvider>
 	);
 }
