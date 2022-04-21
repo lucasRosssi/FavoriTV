@@ -1,6 +1,8 @@
 import React from 'react';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
+import { useShow } from '../../hooks/useShow';
 
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
@@ -22,7 +24,10 @@ import {
 
 interface TVShowCardProps {
 	name: string;
-	image?: string;
+	image?: {
+		medium: string;
+		original: string;
+	};
 	genres: string[];
 	summary: string;
 	status: string;
@@ -46,6 +51,8 @@ export function TVShowCard({
 	language,
 }: TVShowCardProps) {
 	const theme = useTheme();
+	const { navigate } = useNavigation();
+	const { changeShowTitle } = useShow();
 
 	const startingYear = premiered?.split('-')[0];
 	const endingYear = ended?.split('-')[0];
@@ -56,8 +63,20 @@ export function TVShowCard({
 		</GenreWrapper>
 	));
 
+	function handleGoToShowDetails() {
+		changeShowTitle(name);
+		navigate('ShowDetails', {
+			image: image?.original,
+			status,
+			duration,
+			language,
+			genres,
+			summary,
+		});
+	}
+
 	return (
-		<Container>
+		<Container onPress={handleGoToShowDetails}>
 			<TitleWrapper>
 				<Title numberOfLines={1}>
 					{name}
@@ -73,7 +92,7 @@ export function TVShowCard({
 					{image ? (
 						<Image
 							source={{
-								uri: image,
+								uri: image.medium,
 							}}
 						/>
 					) : (

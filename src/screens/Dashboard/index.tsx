@@ -104,7 +104,7 @@ export function Dashboard() {
 						renderItem={({ item }) => (
 							<TVShowCard
 								name={item.name}
-								image={item.image?.medium}
+								image={item.image}
 								genres={item.genres}
 								summary={item.summary}
 								status={item.status}
