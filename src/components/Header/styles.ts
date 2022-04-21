@@ -1,5 +1,6 @@
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import styled from 'styled-components/native';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
 	width: 100%;
@@ -22,3 +23,11 @@ export const Container = styled.View`
 export const MenuButton = styled.TouchableOpacity.attrs({
 	activeOpacity: 0.5,
 })``;
+
+export const Title = styled.Text`
+	max-width: 82%;
+
+	font-family: ${({ theme }) => theme.fonts.regular};
+	font-size: ${RFValue(20)}px;
+	color: ${({ theme }) => theme.colors.shape};
+`;
