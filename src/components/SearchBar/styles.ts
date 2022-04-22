@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-	width: 80%;
+	width: 85%;
 	height: ${RFValue(45)}px;
 	background-color: ${({ theme }) => theme.colors.shape};
 
@@ -16,10 +16,15 @@ export const Container = styled.View`
 `;
 
 export const Input = styled.TextInput`
-	width: 80%;
+	width: 70%;
 	font-family: ${({ theme }) => theme.fonts.regular};
 	font-size: ${RFValue(15)}px;
 	color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const ClearButton = styled.TouchableOpacity`
+	position: absolute;
+	right: ${RFValue(55)}px;
 `;
 
 export const SearchButton = styled.TouchableOpacity`

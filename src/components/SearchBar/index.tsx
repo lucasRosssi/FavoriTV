@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { Container, Input, SearchButton } from './styles';
+import { ClearButton, Container, Input, SearchButton } from './styles';
 import { Keyboard } from 'react-native';
 
 interface SearchBarProps {
@@ -32,6 +32,14 @@ export function SearchBar({ handleSearch }: SearchBarProps) {
 				autoCorrect={false}
 				autoCapitalize="none"
 			/>
+
+			{query ? (
+				<ClearButton onPress={() => setQuery('')}>
+					<Ionicons name="close" color={theme.colors.secondary} size={25} />
+				</ClearButton>
+			) : (
+				<></>
+			)}
 
 			<SearchButton onPress={handlePressButton}>
 				<Ionicons
