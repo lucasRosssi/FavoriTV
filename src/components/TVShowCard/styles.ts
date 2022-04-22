@@ -60,7 +60,7 @@ export const Content = styled.View`
 `;
 
 export const DetailsWrapper = styled.View`
-	flex: 1;
+	width: 40%;
 
 	padding: 5px;
 `;
@@ -69,7 +69,7 @@ export const Details = styled.View`
 	flex-direction: row;
 	align-items: center;
 
-	margin-bottom: 3px;
+	margin-bottom: 10px;
 `;
 
 export const Info = styled.Text`
@@ -84,6 +84,9 @@ export const Info = styled.Text`
 export const Genres = styled.View`
 	flex-direction: row;
 	justify-content: flex-end;
+	align-items: flex-end;
+
+	padding-bottom: 5px;
 `;
 
 export const GenreWrapper = styled.View`

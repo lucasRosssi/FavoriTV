@@ -23,6 +23,7 @@ import {
 } from './styles';
 
 interface TVShowCardProps {
+	id: string;
 	name: string;
 	image?: {
 		medium: string;
@@ -39,6 +40,7 @@ interface TVShowCardProps {
 }
 
 export function TVShowCard({
+	id,
 	name,
 	image,
 	genres,
@@ -66,11 +68,16 @@ export function TVShowCard({
 	function handleGoToShowDetails() {
 		changeShowTitle(name);
 		navigate('ShowDetails', {
-			image: image?.original,
+			id,
+			name,
+			image,
 			status,
+			premiered: startingYear,
+			ended: endingYear,
 			duration,
 			language,
 			genres,
+			rating,
 			summary,
 		});
 	}
@@ -78,13 +85,7 @@ export function TVShowCard({
 	return (
 		<Container onPress={handleGoToShowDetails}>
 			<TitleWrapper>
-				<Title numberOfLines={1}>
-					{name}
-					{premiered && ` | ${startingYear}`}
-					{status === 'Running'
-						? ' - Present'
-						: startingYear !== endingYear && ended && ` - ${endingYear}`}
-				</Title>
+				<Title numberOfLines={1}>{name}</Title>
 			</TitleWrapper>
 
 			<RowWrapper>
@@ -101,32 +102,52 @@ export function TVShowCard({
 				</ImageWrapper>
 
 				<Content>
-					<DetailsWrapper>
-						<Details>
-							<Ionicons
-								name="star"
-								color={theme.colors.secondary}
-								size={RFValue(18)}
-							/>
-							<Info>{rating ? rating : '--'}</Info>
-						</Details>
-						<Details>
-							<Ionicons
-								name="ios-timer-outline"
-								color={theme.colors.secondary}
-								size={RFValue(18)}
-							/>
-							<Info>{duration ? `${duration} min` : '--'}</Info>
-						</Details>
-						<Details>
-							<Ionicons
-								name="language"
-								color={theme.colors.secondary}
-								size={RFValue(18)}
-							/>
-							<Info>{language ? language : '--'}</Info>
-						</Details>
-					</DetailsWrapper>
+					<RowWrapper style={{ flex: 1 }}>
+						<DetailsWrapper>
+							<Details>
+								<Ionicons
+									name="star"
+									color={theme.colors.secondary}
+									size={RFValue(18)}
+								/>
+								<Info>{rating ? rating : '--'}</Info>
+							</Details>
+							<Details>
+								<Ionicons
+									name="ios-timer-outline"
+									color={theme.colors.secondary}
+									size={RFValue(18)}
+								/>
+								<Info>{duration ? `${duration} min` : '--'}</Info>
+							</Details>
+						</DetailsWrapper>
+
+						<DetailsWrapper style={{ width: '60%' }}>
+							<Details>
+								<Ionicons
+									name="language"
+									color={theme.colors.secondary}
+									size={RFValue(18)}
+								/>
+								<Info>{language ? language : '--'}</Info>
+							</Details>
+							<Details>
+								<Ionicons
+									name="calendar-outline"
+									color={theme.colors.secondary}
+									size={RFValue(18)}
+								/>
+								<Info>
+									{premiered && `${startingYear}`}
+									{status === 'Running'
+										? ' - Present'
+										: startingYear !== endingYear &&
+										  ended &&
+										  ` - ${endingYear}`}
+								</Info>
+							</Details>
+						</DetailsWrapper>
+					</RowWrapper>
 
 					<Genres>{genreTypes}</Genres>
 				</Content>
