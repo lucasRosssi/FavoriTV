@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { useTheme } from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Header } from '../../components/Header';
 import { TVShowCard } from '../../components/TVShowCard';
@@ -11,42 +12,44 @@ import { Container, Title, TVShowsList } from './styles';
 
 export function Dashboard() {
 	const theme = useTheme();
+	const { navigate } = useNavigation();
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [tvShows, setTvShows] = useState<TVShowDTO[]>([]);
+	const [list, setList] = useState<TVShowDTO[]>([]);
+	const [page, setPage] = useState(0);
 	const [noMorePages, setNoMorePages] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
-
-	let page = 1;
+	const [start, setStart] = useState(10);
+	const [end, setEnd] = useState(19);
 
 	async function fetchTvShows() {
 		try {
-			const response = await api.get(`/shows?page=0`);
+			const response = await api.get(`/shows?page=${page}`);
+
+			if (response.status === 404) {
+				setNoMorePages(true);
+				return;
+			}
 
 			setTvShows(response.data);
+			setList(response.data.slice(0, 9));
 			setIsLoading(false);
 		} catch (error) {
 			throw new Error('Failed to load TV Shows');
 		}
 	}
 
-	async function fetchNextPage() {
+	async function fetchNextBatch() {
 		if (isSearching || noMorePages) {
 			return;
 		}
 
-		try {
-			const response = await api.get(`/shows?page=${page}`);
+		const batch = tvShows.slice(start, end);
 
-			if (response.data) {
-				setTvShows([...tvShows, ...response.data]);
-				page += 1;
-			} else {
-				setNoMorePages(true);
-			}
-		} catch (error) {
-			throw new Error('Failed to load TV Shows');
-		}
+		setList([...list, ...batch]);
+		setStart(start + 10);
+		setEnd(end + 10);
 	}
 
 	async function handleSearchByName(query: string) {
@@ -72,7 +75,7 @@ export function Dashboard() {
 
 			const shows = response.data.map((item: any) => item.show);
 
-			setTvShows(shows);
+			setList(shows);
 			setIsLoading(false);
 		} catch (error) {
 			throw new Error('Failed to search for tv shows');
@@ -80,12 +83,23 @@ export function Dashboard() {
 	}
 
 	useEffect(() => {
+		setStart(10);
+		setEnd(19);
 		fetchTvShows();
-	}, []);
+	}, [page]);
+
+	useEffect(() => {
+		if (end === 250 * page - 1) {
+			setPage(page + 1);
+		}
+	}, [end]);
 
 	return (
 		<>
-			<Header handleSearch={handleSearchByName} />
+			<Header
+				goToFavorites={() => navigate('Favorites', {})}
+				handleSearch={handleSearchByName}
+			/>
 			<Container>
 				{isLoading ? (
 					<>
@@ -99,10 +113,11 @@ export function Dashboard() {
 				) : (
 					<TVShowsList
 						ListHeaderComponent={<Title>TV Shows</Title>}
-						data={tvShows}
+						data={list}
 						keyExtractor={(item) => item.id}
 						renderItem={({ item }) => (
 							<TVShowCard
+								id={item.id}
 								name={item.name}
 								image={item.image}
 								genres={item.genres}
@@ -117,7 +132,7 @@ export function Dashboard() {
 						)}
 						maxToRenderPerBatch={11}
 						onEndReachedThreshold={0.1}
-						onEndReached={fetchNextPage}
+						onEndReached={fetchNextBatch}
 						ListFooterComponent={
 							<ActivityIndicator
 								color={theme.colors.shape}
