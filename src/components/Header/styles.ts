@@ -25,9 +25,18 @@ export const MenuButton = styled.TouchableOpacity.attrs({
 })``;
 
 export const Title = styled.Text`
-	max-width: 82%;
-
-	font-family: ${({ theme }) => theme.fonts.regular};
-	font-size: ${RFValue(20)}px;
+	font-family: ${({ theme }) => theme.fonts.bold};
+	font-size: ${RFValue(18)}px;
 	color: ${({ theme }) => theme.colors.shape};
+`;
+
+export const RightWrapper = styled.View`
+	flex: 1;
+
+	flex-direction: row;
+	justify-content: flex-end;
+`;
+
+export const FavoriteButton = styled.TouchableOpacity`
+	margin-left: 10px;
 `;
