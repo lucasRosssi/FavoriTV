@@ -93,9 +93,3 @@ export const Genre = styled.Text`
 	font-size: ${RFValue(9)}px;
 	color: ${({ theme }) => theme.colors.shape};
 `;
-
-export const Summary = styled.Text`
-	font-family: ${({ theme }) => theme.fonts.regular};
-	font-size: ${RFValue(15)}px;
-	color: ${({ theme }) => theme.colors.shape};
-`;
