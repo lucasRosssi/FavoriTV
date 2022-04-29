@@ -13,4 +13,6 @@
 - Async Storage
 
 ## 📝 Projeto
-FavoriTV é um app em que o usuário pode visualizar uma lista com inúmeras séries de TV, ver os detalhes, buscar e favoritar as que mais gosta.
+FavoriTV é um app em que o usuário pode visualizar uma lista com inúmeras séries de TV, ver os detalhes, buscar por alguma específica e favoritar as que mais gosta.
+
+O aplicativo consome dados da TVmaze API.
